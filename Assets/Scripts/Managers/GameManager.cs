@@ -2,29 +2,23 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    [SerializeField] private Pai tile;
-    [SerializeField] private PaiMaterialDatabase database;
 
-    private float timer = 0f;
-    private int index = 0;
+    [SerializeField]
+    private Player[] players;
 
-    void Update()
+    private void Start()
     {
-        timer += Time.deltaTime;
-
-        if (timer >= 1f)
+        int num = 0;
+        foreach (Player player in players)
         {
-            timer = 0f;
-
-            PaiType type = (PaiType)index;
-            tile.SetSurface(type);
-
-            index++;
-
-            if (index >= System.Enum.GetValues(typeof(PaiType)).Length)
+            for (int i = 0; i < 13; i++)
             {
-                index = 0;
+                int n = Random.Range(0, 37);
+                player.Draw((PaiType)(n));
             }
+            num++;
         }
+        
+        
     }
 }

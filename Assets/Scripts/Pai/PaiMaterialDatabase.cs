@@ -1,32 +1,25 @@
-using NUnit.Framework;
-using System;
-using System.Collections.Generic;
 using UnityEngine;
 
-
-[Serializable]
-public class PaiMaterialData
-{
-    public PaiType type;
-    public Material material;
-}
 public class PaiMaterialDatabase : MonoBehaviour
 {
-    public List<PaiMaterialData> materials;
-    private Dictionary<PaiType, Material> materialDictionary;
+    public static PaiMaterialDatabase Instance { get; private set; }
+
+    [SerializeField]
+    private Material[] materials;
 
     private void Awake()
     {
-        materialDictionary = new Dictionary<PaiType, Material>();
-
-        foreach (var data in materials)
+        if (Instance != null && Instance != this)
         {
-            materialDictionary[data.type] = data.material;
+            Destroy(gameObject);
+            return;
         }
+
+        Instance = this;
     }
 
     public Material GetMaterial(PaiType type)
     {
-        return materialDictionary[type];
+        return materials[(int)type];
     }
 }
