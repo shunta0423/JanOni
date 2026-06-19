@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -8,6 +9,9 @@ public class Player : MonoBehaviour
     public bool isLocalPlayer;
     [SerializeField]
     public  bool isDrawing = false;
+
+    [SerializeField]
+    public GameObject HandsSquare;
 
     [Header("Status")]
     public int score = 25000;
@@ -69,6 +73,7 @@ public class Player : MonoBehaviour
     {
         Hand.Sort();
         handView.UpdateHands(this);
+        Debug.Log("’®”vF" + HandChecker.IsTenpai(Hand));
     }
 
     //”v‚ğˆø‚­
@@ -80,21 +85,51 @@ public class Player : MonoBehaviour
     //”v‚ğÌ‚Ä‚é
     public void RemoveHand(int n)
     {
-        Hand.Remove(n);
+        Hand.RemoveAt(n);
         RefreshHand();
+        UpdateHandState();
+        MahjongDebugger.PrintHand(Hand);
     }
 
     public void Draw(PaiType pai)
     {
         Hand.Add(pai);
         handView.UpdateHands(this);
+        UpdateHandState();
+        MahjongDebugger.PrintHand(Hand);
+    }
+    public void ListPopBuck()
+    {
+        Hand.RemoveAt(Hand.Count - 1);
+    }
+
+    //’®”v”»’è
+    public bool IsTenpai()
+    {
+        return HandChecker.IsTenpai(Hand);
+    }
+
+    //˜a—¹”»’è
+    public bool IsAgari()
+    {
+        return HandChecker.IsAgari(Hand);
     }
 
 
-
-    public void ListPopBuck()
+    private void UpdateHandState()
     {
-        Hand.Remove(Hand.Count - 1);
+        if (HandChecker.IsAgari(Hand))
+        {
+            handView.SetState(HandState.Agari);
+        }
+        else if (HandChecker.IsTenpai(Hand))
+        {
+            handView.SetState(HandState.Tenpai);
+        }
+        else
+        {
+            handView.SetState(HandState.Normal);
+        }
     }
 
     private void Update()
@@ -111,10 +146,16 @@ public class Player : MonoBehaviour
 
         if(Input.GetMouseButtonDown(1) && Hand.Count < 14)
         {
-            Draw((PaiType)Random.Range(0, 37));
+            Draw((PaiType)Random.Range(0, 34));
+            if (HandChecker.IsAgari(Hand))
+            {
+                Debug.Log("ƒcƒ‚I");
+            }
 
             isDrawing = true;
         }
+
+        
     }
 
     private void Move()

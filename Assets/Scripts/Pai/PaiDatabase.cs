@@ -2,15 +2,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class PaiMaterialDatabase : MonoBehaviour
+public class PaiDatabase : MonoBehaviour
 {
-    public static PaiMaterialDatabase Instance { get; private set; }
+    public static PaiDatabase Instance { get; private set; }
 
     [SerializeField]
     private Material[] materials;
 
     [SerializeField]
-    private Sprite[] Imgs = new Sprite[37];
+    private Sprite[] Imgs = new Sprite[34];
 
     [SerializeField]
     private Dictionary<PaiType, Sprite> PaiImgDictionary = new();

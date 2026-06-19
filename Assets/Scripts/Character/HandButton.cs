@@ -23,7 +23,7 @@ public class HandButton : MonoBehaviour, IPointerEnterHandler,IPointerExitHandle
     {
         this.player = player;
         this.index = index;
-        image.sprite = PaiMaterialDatabase.Instance.GetSprite(pai);
+        image.sprite = PaiDatabase.Instance.GetSprite(pai);
     }
     public void OnClick()
     {

@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -20,7 +22,23 @@ public class HandView : MonoBehaviour
     [SerializeField]//Žè”v—pƒ{ƒ^ƒ“
     private HandButton[] HandsButton = new HandButton[14];
 
-    
+
+    [SerializeField] private Image background;
+
+    [SerializeField]
+    private Color normalColor =
+        new Color(0, 0, 0, 0.80f);
+
+    [SerializeField]
+    private Color tenpaiColor =
+        new Color(1f, 1f, 0f, 0.80f);
+
+    [SerializeField]
+    private Color agariColor =
+        new Color(1f, 0.84f, 0f, 0.80f);
+    private Coroutine glowCoroutine;
+
+
     private void Start()
     {
         cam = Camera.main;
@@ -93,5 +111,50 @@ public class HandView : MonoBehaviour
         }
     }
 
-    
+
+    public void SetState(HandState state)
+    {
+        if (glowCoroutine != null)
+        {
+            StopCoroutine(glowCoroutine);
+            glowCoroutine = null;
+        }
+
+        switch (state)
+        {
+            case HandState.Normal:
+
+                background.color = normalColor;
+                break;
+
+            case HandState.Tenpai:
+
+                background.color = tenpaiColor;
+                break;
+
+            case HandState.Agari:
+
+                glowCoroutine = StartCoroutine(AgariGlow());
+                break;
+        }
+    }
+
+    private IEnumerator AgariGlow()
+    {
+        while (true)
+        {
+            background.color = agariColor;
+
+            yield return new WaitForSeconds(0.35f);
+
+            Color c = agariColor;
+            c.a = 0.2f;
+
+            background.color = c;
+
+            yield return new WaitForSeconds(0.35f);
+        }
+    }
+
+
 }

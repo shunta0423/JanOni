@@ -8,7 +8,7 @@ public class MahjongTile : MonoBehaviour
     public void SetTile(PaiType type)
     {
         meshRenderer.material =
-            PaiMaterialDatabase.Instance.GetMaterial(type);
+            PaiDatabase.Instance.GetMaterial(type);
     }
 
     

@@ -12,7 +12,7 @@ public class Hand
         tiles.Add(pai);
     }
 
-    public void Remove(int n)
+    public void RemoveAt(int n)
     {
         tiles.RemoveAt(n);
     }
@@ -28,5 +28,13 @@ public class Hand
         tiles.Clear();
     }
 
-    public int Count => tiles.Count;
+    public int Count
+    {
+        get { return tiles.Count; }
+    }
+
+    public override string ToString()
+    {
+        return string.Join(", ", Tiles);
+    }
 }
