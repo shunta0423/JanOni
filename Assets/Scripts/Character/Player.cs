@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 [RequireComponent(typeof(CharacterController))]
@@ -5,6 +6,8 @@ public class Player : MonoBehaviour
 {
     [Header("Player")]
     public bool isLocalPlayer;
+    [SerializeField]
+    public  bool isDrawing = false;
 
     [Header("Status")]
     public int score = 25000;
@@ -40,6 +43,8 @@ public class Player : MonoBehaviour
     private float verticalVelocity;
     private float xRotation;
 
+    
+
     //public  Animator animator;
 
     private void Awake()
@@ -59,22 +64,37 @@ public class Player : MonoBehaviour
         //animator = GetComponent<Animator>();
     }
 
+    //è”v‚ğXV‚·‚é
     public void RefreshHand()
     {
         Hand.Sort();
-        handView.UpdateView(Hand);
+        handView.UpdateHands(this);
     }
 
-    public void Draw(PaiType tile)
+    //”v‚ğˆø‚­
+    public void PlusHand(PaiType tile)
     {
         Hand.Add(tile);
+    }
+
+    //”v‚ğÌ‚Ä‚é
+    public void RemoveHand(int n)
+    {
+        Hand.Remove(n);
         RefreshHand();
     }
 
-    public void Discard(PaiType tile)
+    public void Draw(PaiType pai)
     {
-        Hand.Remove(tile);
-        RefreshHand();
+        Hand.Add(pai);
+        handView.UpdateHands(this);
+    }
+
+
+
+    public void ListPopBuck()
+    {
+        Hand.Remove(Hand.Count - 1);
     }
 
     private void Update()
@@ -82,8 +102,19 @@ public class Player : MonoBehaviour
         //if (!isLocalPlayer)
         //    return;
 
-        Move();
-        Look();
+        if (!isDrawing)
+        {
+            Move();
+            Look();
+        }
+        
+
+        if(Input.GetMouseButtonDown(1) && Hand.Count < 14)
+        {
+            Draw((PaiType)Random.Range(0, 37));
+
+            isDrawing = true;
+        }
     }
 
     private void Move()

@@ -2,9 +2,9 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-
+    public static GameManager Instance { get; private set; }
     [SerializeField]
-    private Player[] players;
+    public  Player[] players;
 
     private void Start()
     {
@@ -14,11 +14,19 @@ public class GameManager : MonoBehaviour
             for (int i = 0; i < 13; i++)
             {
                 int n = Random.Range(0, 37);
-                player.Draw((PaiType)(n));
+                player.PlusHand((PaiType)(n));
             }
             num++;
+            player.RefreshHand();
         }
+
         
+        
+        
+    }
+
+    private void Update()
+    {
         
     }
 }

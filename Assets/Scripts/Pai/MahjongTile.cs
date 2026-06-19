@@ -10,4 +10,6 @@ public class MahjongTile : MonoBehaviour
         meshRenderer.material =
             PaiMaterialDatabase.Instance.GetMaterial(type);
     }
+
+    
 }

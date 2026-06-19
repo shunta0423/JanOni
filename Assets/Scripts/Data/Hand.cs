@@ -4,18 +4,19 @@ using System.Collections.Generic;
 public class Hand
 {
     private List<PaiType> tiles = new();
-
+    
     public IReadOnlyList<PaiType> Tiles => tiles;
 
-    public void Add(PaiType tile)
+    public void Add(PaiType pai)
     {
-        tiles.Add(tile);
+        tiles.Add(pai);
     }
 
-    public bool Remove(PaiType tile)
+    public void Remove(int n)
     {
-        return tiles.Remove(tile);
+        tiles.RemoveAt(n);
     }
+
 
     public void Sort()
     {
